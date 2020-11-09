@@ -10,6 +10,169 @@
 
 <body>
 
+    <div class="container">
+        <div class="wrapper">
+            <div class="wrapper__left">
+                <div class="filter__wrapper">
+                    <div class="filter__body">
+                        <form class="filter__form" action="">
+
+                            <h2 class="filter__title">Сортировать</h2>
+
+                            <div class="filter__row">
+                                <input type="radio" name="sort" value="cost_asc">
+                                <label for="radio" class="filter__label-right">по возрастанию цены</label>
+                            </div>
+                            <div class="filter__row">
+                                <input type="radio" name="sort" value="cost_desc">
+                                <label for="radio" class="filter__label-right">по убыванию в цене</label>
+                            </div>
+                            <div class="filter__row">
+                                <input type="radio" name="sort" value="time_desc">
+                                <label for="radio" class="filter__label-right">по времени в пути</label>
+                            </div>
+
+                            <h2 class="filter__title">Фильтровать</h2>
+
+                            <div class="filter__row">
+                                <input type="checkbox" name="1relay">
+                                <label for="radio" class="filter__label-right">1 пересадка</label>
+                            </div>
+                            <div class="filter__row">
+                                <input type="checkbox" name="1relay">
+                                <label for="radio" class="filter__label-right">без пересадок</label>
+                            </div>
+
+                            <h2 class="filter__title">Цена</h2>
+
+                            <div class="filter__row">
+                                <label for="from">От</label><input name="from" type="text" />
+                            </div>
+                            <div class="filter__row">
+                                <label for="to">До</label><input name="to" type="text" />
+                            </div>
+
+                            <h2 class="filter__title cost__filter">Цена</h2>
+
+                            <div class="cost__filter-row filter__row">
+                                <div class="cost__filter-name">
+                                    <input type="checkbox" name="polish">
+                                    <label for="polish" class="filter__label-right">LOT Polish Airlines</label>
+                                </div>
+                                <div class="cost__filter-cost">
+                                    от 21049 р.
+                                </div>
+                            </div>
+
+                            <div class="cost__filter-row filter__row">
+                                <div class="cost__filter-name">
+                                    <input type="checkbox" name="polish">
+                                    <label for="polish" class="filter__label-right cost__filter-label">Аэрофлот —
+                                        Российские авиалинии</label>
+                                </div>
+                                <div class="cost__filter-cost">
+                                    от 21049 р.
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper__right">
+
+                <div class="flight__header">
+                    <img src="img/polish-airlines.png" alt="polish airlines">
+                    <div class="flight__cost-group">
+                        <div class="flight__cost">21049</div>
+                        <div class="flight__cost-desc">Стоимость для одного взрослого пассажира</div>
+                    </div>
+                </div>
+
+                <div class="flight__element element-flight">
+                    <div class="element-flight__title">
+                        <div class="element-flight__city">Москва, ШЕРЕМЕТЬЕВО <span>(SVO)</span></div>
+                        <div class="element-flight__arrow">&#8594;</div>
+                        <div class="element-flight__city">ЛОНДОН, Лондон, Хитроу <span>(LHR)</span></div>
+                    </div>
+                    <div class="element-flight__time">
+                        <div class="element-flight__time-val">20:40 <span>18 авг. вт</span></div>
+                        <div class="element-flight__time-period">14 ч 45 мин</div>
+                        <div class="element-flight__time-val"><span>18 авг. вт</span> 20:40</div>
+                    </div>
+                    <div class="element-flight__relay"><span>1 пересадка</span></div>
+                    <div class="element-flight__transporter">Рейс выполняет: LOT Polish Airlilnes</div>
+                </div>
+
+                <div class="flight__spacer"></div>
+
+                <div class="flight__element element-flight">
+                    <div class="element-flight__title">
+                        <div class="element-flight__city">Москва, ШЕРЕМЕТЬЕВО <span>(SVO)</span></div>
+                        <div class="element-flight__arrow">&#8594;</div>
+                        <div class="element-flight__city">ЛОНДОН, Лондон, Хитроу <span>(LHR)</span></div>
+                    </div>
+                    <div class="element-flight__time">
+                        <div class="element-flight__time-val">20:40 <span>18 авг. вт</span></div>
+                        <div class="element-flight__time-period">14 ч 45 мин</div>
+                        <div class="element-flight__time-val"><span>18 авг. вт</span> 20:40</div>
+                    </div>
+                    <div class="element-flight__relay"><span>1 пересадка</span></div>
+                    <div class="element-flight__transporter">Рейс выполняет: LOT Polish Airlilnes</div>
+                </div>
+
+                <button class="flight__select">ВЫБРАТЬ</button>
+
+
+                <div class="flight__header">
+                    <img src="img/polish-airlines.png" alt="polish airlines">
+                    <div class="flight__cost-group">
+                        <div class="flight__cost">21049</div>
+                        <div class="flight__cost-desc">Стоимость для одного взрослого пассажира</div>
+                    </div>
+                </div>
+
+                <div class="flight__element element-flight">
+                    <div class="element-flight__title">
+                        <div class="element-flight__city">Москва, ШЕРЕМЕТЬЕВО <span>(SVO)</span></div>
+                        <div class="element-flight__arrow">&#8594;</div>
+                        <div class="element-flight__city">ЛОНДОН, Лондон, Хитроу <span>(LHR)</span></div>
+                    </div>
+                    <div class="element-flight__time">
+                        <div class="element-flight__time-val">20:40 <span>18 авг. вт</span></div>
+                        <div class="element-flight__time-period">14 ч 45 мин</div>
+                        <div class="element-flight__time-val"><span>18 авг. вт</span> 20:40</div>
+                    </div>
+                    <div class="element-flight__relay"><span>1 пересадка</span></div>
+                    <div class="element-flight__transporter">Рейс выполняет: LOT Polish Airlilnes</div>
+                </div>
+
+                <div class="flight__spacer"></div>
+
+                <div class="flight__element element-flight">
+                    <div class="element-flight__title">
+                        <div class="element-flight__city">Москва, ШЕРЕМЕТЬЕВО <span>(SVO)</span></div>
+                        <div class="element-flight__arrow">&#8594;</div>
+                        <div class="element-flight__city">ЛОНДОН, Лондон, Хитроу <span>(LHR)</span></div>
+                    </div>
+                    <div class="element-flight__time">
+                        <div class="element-flight__time-val">20:40 <span>18 авг. вт</span></div>
+                        <div class="element-flight__time-period">14 ч 45 мин</div>
+                        <div class="element-flight__time-val"><span>18 авг. вт</span> 20:40</div>
+                    </div>
+                    <div class="element-flight__relay"><span>1 пересадка</span></div>
+                    <div class="element-flight__transporter">Рейс выполняет: LOT Polish Airlilnes</div>
+                </div>
+
+                <button class="flight__select">ВЫБРАТЬ</button>
+
+                <button class="flight__more">Показать еще</button>
+
+            </div>
+        </div>
+    </div>
+
+
 </body>
 
 </html>

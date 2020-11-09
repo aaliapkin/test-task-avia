@@ -1,0 +1,43 @@
+.error__container {
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    max-width: 400px;
+    max-height: 100px;
+    align-items: center;
+    justify-items: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 20px;
+    margin: auto;
+}
+
+.error__icon {
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    background: #740000;
+    margin: 0px 12px 0px 12px;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+
+    :hover,
+    :focus {
+        background: #fff;
+        cursor: pointer;
+    }
+}
+
+.error__desc {
+    color: #740000;
+    font-size: 24px;
+    font-weight: 400;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+
+    h1 {
+        font-size: 32px;
+        font-weight: 400;
+        font-family: Lato, Arial, Helvetica, sans-serif;
+    }
+}

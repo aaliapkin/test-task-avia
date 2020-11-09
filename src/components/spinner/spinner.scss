@@ -1,0 +1,25 @@
+.spinner__container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.spinner__inner-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.spinner {
+    color: #ccc;
+}
+
+.app-top__container .spinner,
+.app__full-container--grad .spinner {
+    color: #fff;
+}
+
+.app__bottom-container .spinner {
+    color: #ccc;
+}

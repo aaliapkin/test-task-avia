@@ -1,0 +1,65 @@
+.filter {
+    &__wrapper {
+        background-color: #d9d9d9;
+        padding: 36px 0px 144px 0px;
+    }
+    &__body {
+        background-color: #fff;
+        padding: 20px;
+    }
+    &__form {
+        input[type="text"] {
+            margin: 0 0 0 4px;
+            border: 1px #777777 solid;
+            border-radius: 2px;
+            padding: 2px;
+        }
+    }
+    &__title {
+        font-weight: 600;
+        color: #425668;
+        margin: 20px 0px 20px 0px;
+    }
+    &__row {
+        margin: 4px 0;
+        label.filter__label-right {
+            &:before {
+                content: "- ";
+            }
+            .element-flight__time {
+                .element-flight__time-period {
+                    span {
+                    }
+                }
+                .element-flight__time-val {
+                    span {
+                    }
+                }
+            }
+        }
+    }
+}
+
+.cost {
+    &__filter-row {
+        display: flex;
+        width: 100%;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+    &__filter-name {
+        flex: 0 1 auto;
+        white-space: nowrap;
+    }
+    &__filter-label {
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    &__filter-cost {
+        flex: 0 0 auto;
+        margin: 0 0 0 4px;
+        white-space: nowrap;
+    }
+}
