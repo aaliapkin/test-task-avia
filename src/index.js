@@ -5,12 +5,12 @@ import { store } from './redux';
 import { Provider } from 'react-redux';
 import { ServiceProvider, FlightService } from './flight-service';
 
-
 import './index.scss';
 
 const flightService = new FlightService();
 
 const update = () => {
+
     ReactDOM.render(
         <ServiceProvider value={flightService}>
             <Provider store={store}>

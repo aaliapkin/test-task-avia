@@ -15,22 +15,15 @@ const sortCallback = (a, b, type) => {
 const withData = () => (Wrapped) => {
     return class extends Component {
 
-        shouldComponentUpdate(nextProps, nextState) {
-            if (this.props.filter === nextProps.filter &&
-                this.props.flights.loading === this.props.flights.loading &&
-                this.props.flights.error === this.props.flights.error) {
-                return false;
-            }
-
-            return true;
-        }
-
         componentDidMount() {
             this.update();
         }
 
-        componentDidUpdate() {
-            this.update();
+        componentDidUpdate(prevProps) {
+            const { flights: { loading } } = this.props;
+            if (this.props.filter !== prevProps.filter && loading == false) {
+                this.update();
+            }
         }
 
         update() {
