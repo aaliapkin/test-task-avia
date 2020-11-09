@@ -1,7 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './filter.scss';
+import { setSorting } from '../../actions';
 
-const Filter = () => {
+const Filter = (props) => {
+
+    const { sorting, setSorting } = props;
+
     return (
         <div className="filter__wrapper">
             <div className="filter__body">
@@ -10,15 +15,33 @@ const Filter = () => {
                     <h2 className="filter__title">Сортировать</h2>
 
                     <div className="filter__row">
-                        <input type="radio" name="sort" value="cost_asc" />
+                        <input
+                            type="radio"
+                            name="sort"
+                            value="price_asc"
+                            checked={sorting === 'price_asc' ? true : false}
+                            onChange={() => setSorting('price_asc')}
+                        />
                         <label htmlFor="radio" className="filter__label-right">по возрастанию цены</label>
                     </div>
                     <div className="filter__row">
-                        <input type="radio" name="sort" value="cost_desc" />
+                        <input
+                            type="radio"
+                            name="sort"
+                            value="price_desc"
+                            checked={sorting === 'price_desc' ? true : false}
+                            onChange={() => setSorting('price_desc')}
+                        />
                         <label htmlFor="radio" className="filter__label-right">по убыванию в цене</label>
                     </div>
                     <div className="filter__row">
-                        <input type="radio" name="sort" value="time_desc" />
+                        <input
+                            type="radio"
+                            name="sort"
+                            value="time"
+                            checked={sorting === 'time' ? true : false}
+                            onChange={() => setSorting('time')}
+                        />
                         <label htmlFor="radio" className="filter__label-right">по времени в пути</label>
                     </div>
 
@@ -71,4 +94,12 @@ const Filter = () => {
     );
 }
 
-export default Filter;
+const mapStateToProps = () => ({ filter }) => (filter);
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setSorting: (value) => dispatch(setSorting(value))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

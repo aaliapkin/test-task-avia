@@ -16,22 +16,6 @@ function hashCode(str) {
     return hash;
 }
 
-const airlines = {
-    'AF': 'img/airfrance.png',
-    'AY': 'img/polish-airlines.png',
-    'AZ': 'img/polish-airlines.png',
-    'BT': 'img/polish-airlines.png',
-    'KL': 'img/polish-airlines.png',
-    'LO': 'img/polish-airlines.png',
-    'PC': 'img/polish-airlines.png',
-    'SN': 'img/brussels.png',
-    'SU': 'img/aeroflot.png',
-    'TK': 'img/polish-airlines.png',
-};
-
-const months = ['янв', 'фев', 'март', 'апр', 'май', 'июнь', 'июль', 'авг', 'сен', 'окт', 'ноя', 'дек'];
-const weekdays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
-
 // AF: "Air France"
 // AY: "Finnair Oyj"
 // AZ: "Alitalia Societa Aerea Italiana"
@@ -43,6 +27,21 @@ const weekdays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 // SU: "Аэрофлот - российские авиалинии"
 // TK: "TURK HAVA YOLLARI A.O."
 
+const airlines = {
+    'AF': 'img/airfrance.png',
+    'AY': 'img/polish-airlines.png',
+    'AZ': 'img/polish-airlines.png',
+    'BT': 'img/polish-airlines.png',
+    'KL': 'img/klm.png',
+    'LO': 'img/polish-airlines.png',
+    'PC': 'img/polish-airlines.png',
+    'SN': 'img/brussels.png',
+    'SU': 'img/aeroflot.png',
+    'TK': 'img/polish-airlines.png',
+};
+
+const months = ['янв', 'фев', 'март', 'апр', 'май', 'июнь', 'июль', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+const weekdays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
 function getCarriers(flights) {
     let carriers = {};
@@ -57,10 +56,10 @@ function getCarriers(flights) {
 const formatDate = (date) => {
     let d = new Date(Date.parse(date));
     let ret;
-    console.log(ret = {
+    ret = {
         date: `${d.getDate()} ${months[d.getMonth()]}. ${weekdays[d.getDay()]}`,
         time: `${d.getHours()}:${('0' + d.getMinutes()).slice(-2)}`
-    });
+    };
     return ret;
 }
 
@@ -71,8 +70,7 @@ const flightHours = (date1, date2) => {
     return `${Math.floor(diff / 60)} ч ${('0' + diff % 60).slice(-2)} мин`;
 }
 
-
-const FlightList = ({ data }) => {
+const FlightList = ({ flights: { data } }) => {
 
     let { flights } = data;
 
@@ -93,7 +91,6 @@ const FlightList = ({ data }) => {
 }
 
 const FlightElement = ({ flight }) => {
-    //console.log(flight);
 
     const price = flight.price.total.amount;
     // const ccy = flight.price.total.currencyCode;
@@ -126,14 +123,11 @@ const FlightElement = ({ flight }) => {
     );
 }
 
-
 const FlightLeg = ({ leg }) => {
 
     // if (leg.segments.length === 2) {
     //     return <></>;
     // }
-
-    console.log(leg);
 
     let firstleg = leg.segments[0];
     let lastleg = leg.segments[leg.segments.length - 1];
@@ -198,7 +192,7 @@ const FlightLeg = ({ leg }) => {
 }
 
 
-const mapStateToProps = () => ({ flights }) => (flights);
+const mapStateToProps = () => ({ flights, filter }) => ({ flights, filter });
 
 const mapDispatchToProps = (dispatch) => {
     return {

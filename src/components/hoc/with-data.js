@@ -2,26 +2,59 @@ import React, { Component } from 'react';
 import Spinner from '../spinner';
 import { ErrorBoundary, ErrorIndicator } from '../error';
 
+const sortCallback = (a, b, type) => {
+    if (type === 'price_desc') {
+        return a.flight.price.total.amount - b.flight.price.total.amount;
+    }
+    if (type === 'price_asc') {
+        return b.flight.price.total.amount - a.flight.price.total.amount;
+    }
+    return 0;
+}
+
 const withData = () => (Wrapped) => {
     return class extends Component {
 
-        componentDidMount() {
+        shouldComponentUpdate(nextProps, nextState) {
+            if (this.props.filter === nextProps.filter &&
+                this.props.flights.loading === this.props.flights.loading &&
+                this.props.flights.error === this.props.flights.error) {
+                return false;
+            }
 
-            const { dataRequest, dataLoaded, dataError, service } = this.props;
+            return true;
+        }
+
+        componentDidMount() {
+            this.update();
+        }
+
+        componentDidUpdate() {
+            this.update();
+        }
+
+        update() {
+            const { dataRequest, dataError, service } = this.props;
             dataRequest();
 
             service.getFlights()
                 .then((data) => {
-                    dataLoaded(data);
+                    this.dataReady(data);
                 })
                 .catch(() => {
                     dataError();
                 });
         }
 
+        dataReady(data) {
+            const { dataLoaded, filter } = this.props;
+            data.flights.sort((a, b) => sortCallback(a, b, filter.sorting));
+            dataLoaded(data);
+        }
+
         render() {
 
-            const { data, loading, error } = this.props;
+            const { loading, error, data } = this.props.flights;
 
             if (loading) {
                 return <Spinner />;
