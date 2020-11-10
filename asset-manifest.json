@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/test-task-avia/static/css/main.3f9ffc6b.chunk.css",
-    "main.js": "/test-task-avia/static/js/main.a0256734.chunk.js",
-    "main.js.map": "/test-task-avia/static/js/main.a0256734.chunk.js.map",
+    "main.js": "/test-task-avia/static/js/main.3eee5a72.chunk.js",
+    "main.js.map": "/test-task-avia/static/js/main.3eee5a72.chunk.js.map",
     "runtime-main.js": "/test-task-avia/static/js/runtime-main.86126b66.js",
     "runtime-main.js.map": "/test-task-avia/static/js/runtime-main.86126b66.js.map",
     "static/js/2.79556a36.chunk.js": "/test-task-avia/static/js/2.79556a36.chunk.js",
     "static/js/2.79556a36.chunk.js.map": "/test-task-avia/static/js/2.79556a36.chunk.js.map",
     "index.html": "/test-task-avia/index.html",
-    "precache-manifest.5374f57230f614b0add7534a3738405b.js": "/test-task-avia/precache-manifest.5374f57230f614b0add7534a3738405b.js",
+    "precache-manifest.abe4945f3a1221732566662a47fa3838.js": "/test-task-avia/precache-manifest.abe4945f3a1221732566662a47fa3838.js",
     "service-worker.js": "/test-task-avia/service-worker.js",
     "static/css/main.3f9ffc6b.chunk.css.map": "/test-task-avia/static/css/main.3f9ffc6b.chunk.css.map",
     "static/js/2.79556a36.chunk.js.LICENSE.txt": "/test-task-avia/static/js/2.79556a36.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.86126b66.js",
     "static/js/2.79556a36.chunk.js",
     "static/css/main.3f9ffc6b.chunk.css",
-    "static/js/main.a0256734.chunk.js"
+    "static/js/main.3eee5a72.chunk.js"
   ]
 }
