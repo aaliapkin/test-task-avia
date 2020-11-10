@@ -11,6 +11,8 @@ const flightService = new FlightService();
 
 const update = () => {
 
+    //console.log(store.getState());
+
     ReactDOM.render(
         <ServiceProvider value={flightService}>
             <Provider store={store}>

@@ -1,3 +1,15 @@
+import { data } from './data';
+
+function hashCode(str) {
+    var hash = 0, i, chr;
+    for (i = 0; i < str.length; i++) {
+        chr = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+}
+
 export default class FlightService {
 
     url = 'http://localhost:3001/result';
@@ -10,30 +22,46 @@ export default class FlightService {
         return await res.json();
     }
 
-    getFlights2 = async (filter, param) => {
-        const res = await fetch(`${this.url}`);
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${this.url}, received ${res.status}`);
-        }
-        let data = await res.json();
-        data.flights = data.flights
-            .sort((a, b) => this.sortCallback(a, b, filter))
-            .filter(el => this.filterCallback(el, filter))
-            .filter(el => this.filterAirlineCallback(el, filter));
-        //data.flights = [...data.flights.slice(start, start + limit)];
+
+    getJson = async () => {
         return data;
     }
 
+    getFlights2 = async (filter, start, limit) => {
+        // const res = await fetch(`${this.url}`);
+        // if (!res.ok) {
+        //     throw new Error(`Could not fetch ${this.url}, received ${res.status}`);
+        // }
+        // let data = await res.json();
+        let res = await this.getJson();
+        let data = res;
+        let flights = data;
+        flights = flights
+            .sort((a, b) => this.sortCallback(a, b, filter))
+            .filter(el => this.filterCallback(el, filter))
+            .filter(el => this.filterAirlineCallback(el, filter));
+        //debugger;
+        console.log('start, start + limit', start, start + limit);
+        flights = [...flights.slice(start, start + limit)];
+        return flights;
+    }
+
     getAirlines = async (filter) => {
-        const res = await fetch(`${this.url}`);
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${this.url}, received ${res.status}`);
-        }
-        let data = await res.json();
-        data.flights = data.flights.filter(el => this.filterCallback(el, filter));
+        // const res = await fetch(`${this.url}`);
+        // if (!res.ok) {
+        //     throw new Error(`Could not fetch ${this.url}, received ${res.status}`);
+        // }
+        // let data = await res.json();
+        // // let data = this.getJson();
+        // data.flights = data.flights.filter(el => this.filterCallback(el, filter));
+
+
+        let res = await this.getJson();
+        let data = res;
+        let flights = data;
 
         let carriers = {};
-        for (let fl of data.flights) {
+        for (let fl of flights) {
             let price = fl.flight.price.total.amount;
             let code = fl.flight.carrier.airlineCode;
             let caption = fl.flight.carrier.caption;
@@ -116,7 +144,7 @@ export default class FlightService {
         if (airline.length > 0) {
             let res = false;
             for (let line of airline) {
-                if (line === el.flight.carrier.uid) {
+                if (line === el.flight.carrier.airlineCode) {
                     res = true;
                 }
             }

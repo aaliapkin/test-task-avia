@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { WithData } from '../hoc';
 import WithFlightService from '../hoc/with-flight-service';
 import './flight-list.scss';
-import { flightsRequest, flightsLoaded, flightsError } from '../../actions';
+import { flightsRequest, flightsLoaded, flightsError, flightsFull } from '../../actions';
+import { ErrorBoundary, ErrorIndicator } from '../error';
+import Spinner from '../spinner';
 
-function hashCode(str) {
-    var hash = 0, i, chr;
-    for (i = 0; i < str.length; i++) {
-        chr = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-}
+// function hashCode(str) {
+//     var hash = 0, i, chr;
+//     for (i = 0; i < str.length; i++) {
+//         chr = str.charCodeAt(i);
+//         hash = ((hash << 5) - hash) + chr;
+//         hash |= 0; // Convert to 32bit integer
+//     }
+//     return hash;
+// }
 
 // AF: "Air France"
 // AY: "Finnair Oyj"
@@ -29,15 +31,15 @@ function hashCode(str) {
 
 const airlines = {
     'AF': 'img/airfrance.png',
-    'AY': 'img/polish-airlines.png',
-    'AZ': 'img/polish-airlines.png',
-    'BT': 'img/polish-airlines.png',
+    'AY': 'img/finn.png',
+    'AZ': 'img/alitalia.png',
+    'BT': 'img/baltic.png',
     'KL': 'img/klm.png',
     'LO': 'img/polish-airlines.png',
-    'PC': 'img/polish-airlines.png',
+    'PC': 'img/pegasus.png',
     'SN': 'img/brussels.png',
     'SU': 'img/aeroflot.png',
-    'TK': 'img/polish-airlines.png',
+    'TK': 'img/turk.png',
 };
 
 const months = ['янв', 'фев', 'март', 'апр', 'май', 'июнь', 'июль', 'авг', 'сен', 'окт', 'ноя', 'дек'];
@@ -67,22 +69,101 @@ const flightHours = (minutes) => {
     return `${Math.floor(minutes / 60)} ч ${('0' + minutes % 60).slice(-2)} мин`;
 }
 
-const FlightList = (props) => {
+const FlightsContainer = (props) => {
 
-    let { data: { flights } } = props;
+    let {
+        dataRequest, dataError, dataLoaded, dataFull, service,
+        filter, data: flights, error, loading
+    } = props;
 
-    //getCarriers(flights);
+    // console.log('flight_list.props', props);
 
-    flights = [...flights.slice(0, 50)];
+    const loader = useRef(null);
+    const prevY = useRef(0);
+    let countRef = useRef(0);
+    let count = flights.length ?? 0;
+    countRef.current = count;
 
+    let filterRef = useRef(null);
+    filterRef.current = filter;
+
+    //console.log('count-------------------', count);
+
+    function getFlights() {
+        dataRequest();
+        service.getFlights2(filterRef.current, countRef.current, 5)
+            .then((data) => {
+                if (data.length === 0) {
+                    dataFull();
+                } else {
+                    dataLoaded(data);
+                }
+            })
+            .catch(() => {
+                dataError('Error loading');
+            });
+    }
+
+    useEffect(() => {
+        getFlights();
+    }, [filter]);
+
+    useEffect(() => {
+        var options = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 1.0
+        };
+        const observer = new IntersectionObserver(handleObserver, options);
+        observer.observe(loader.current);
+    }, []);
+
+    const handleObserver = (entities) => {
+        const y = entities[0].boundingClientRect.y;
+        if (prevY.current > y && countRef.current > 0) {
+            getFlights();
+        }
+        prevY.current = y;
+    };
+
+    let content;
+
+    if (error) {
+        content = (<ErrorIndicator />);
+    }
+
+    if (!error) {
+        content = (
+            <React.Fragment>
+                <FlightsList flights={flights} />
+                {loading ?
+                    <div className="flights__spinner">
+                        <Spinner />
+                    </div> : ''}
+            </React.Fragment>
+        );
+    }
+
+    return (
+        <ErrorBoundary>
+            {content}
+            <button className="flight__more" ref={loader}>Показать еще</button>
+        </ErrorBoundary>
+    );
+
+}
+
+const FlightsList = (props) => {
+
+    let { flights } = props;
+//key={hashCode(flightToken)}
     let flightElements = flights.map(({ flightToken, flight }) => {
-        return (<FlightElement key={hashCode(flightToken)} flight={flight} />);
+        return (<FlightElement key={flightToken} flight={flight} />);
     });
 
     return (
         <React.Fragment>
             {flightElements}
-            <button className="flight__more">Показать еще</button>
         </React.Fragment>
     );
 }
@@ -189,18 +270,33 @@ const FlightLeg = ({ leg }) => {
 }
 
 
-const mapStateToProps = () => ({ flights: { data, loading, error }, filter }) => ({ data, loading, error, filter });
+const getData = (service, filter) => {
+    return service.getFlights2(filter);
+}
+
+const mapStateToProps = () => (state) => {
+    let { flights: { data, loading, error }, filter } = state;
+    // console.log('state', state);
+    return ({ data, loading, error, filter });
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         dataRequest: () => dispatch(flightsRequest()),
         dataLoaded: (data) => dispatch(flightsLoaded(data)),
-        dataError: () => dispatch(flightsError())
+        dataError: () => dispatch(flightsError()),
+        dataFull: () => dispatch(flightsFull())
     };
 }
 
+// export default compose(
+//     connect(mapStateToProps, mapDispatchToProps),
+//     WithFlightService(),
+//     WithData(getData)
+// )(FlightList);
+
+
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
-    WithFlightService(),
-    WithData('getFlights2')
-)(FlightList);
+    WithFlightService()
+)(FlightsContainer);

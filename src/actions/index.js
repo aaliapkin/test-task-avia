@@ -9,7 +9,8 @@ import {
     setAirlineFilter,
     airlinesRequest,
     airlinesLoaded,
-    airlinesError
+    airlinesError,
+    flightsFull
 } from './actions';
 export {
     flightsRequest,
@@ -22,5 +23,6 @@ export {
     setAirlineFilter,
     airlinesRequest,
     airlinesLoaded,
-    airlinesError
+    airlinesError,
+    flightsFull
 };

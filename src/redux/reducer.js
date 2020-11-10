@@ -40,8 +40,6 @@ const filterReducer = (state, action) => {
                 newAirline.push(action.payload.code);
             }
 
-            console.log(newAirline);
-
             return {
                 ...state.filter,
                 airline: newAirline
@@ -50,13 +48,13 @@ const filterReducer = (state, action) => {
         case 'SET_FILTER_PRICE_TO':
             return {
                 ...state.filter,
-                priceTo: action.payload
+                priceTo: +action.payload
             };
 
         case 'SET_FILTER_PRICE_FROM':
             return {
                 ...state.filter,
-                priceFrom: action.payload
+                priceFrom: +action.payload
             };
 
         default:
@@ -69,7 +67,7 @@ const airlinesReducer = (state, action) => {
 
     if (state === undefined) {
         return {
-            data: {},
+            data: [],
             loading: true,
             error: false
         };
@@ -79,7 +77,7 @@ const airlinesReducer = (state, action) => {
 
         case 'FETCH_AIRLINES_REQUEST':
             return {
-                data: {},
+                data: [],
                 loading: true,
                 error: false
             };
@@ -105,10 +103,9 @@ const airlinesReducer = (state, action) => {
 
 
 const flightsReducer = (state, action) => {
-
     if (state === undefined) {
         return {
-            data: {},
+            data: [],
             loading: true,
             error: false
         };
@@ -116,16 +113,23 @@ const flightsReducer = (state, action) => {
 
     switch (action.type) {
 
+        case 'SET_SORTING_VALUE':
+        case 'SET_CHANGE_FILTER_VALUE':
+        case 'SET_FILTER_PRICE_TO':
+        case 'SET_FILTER_PRICE_FROM':
+        case 'SET_AIRLINE_FILTER_VALUE':
+            return { ...state, data: [] };
+
         case 'FETCH_FLIGHTS_REQUEST':
             return {
-                data: {},
+                data: [...state.data],
                 loading: true,
                 error: false
             };
 
         case 'FETCH_FLIGHTS_SUCCESS':
             return {
-                data: action.payload,
+                data: [...state.data, ...action.payload],
                 loading: false,
                 error: null
             };
@@ -137,14 +141,18 @@ const flightsReducer = (state, action) => {
                 error: action.payload
             };
 
+        case 'FETCH_FLIGHTS_FULL':
         default:
-            return state.flights;
+            return state;
     }
 }
 
 const reducer = (state, action) => {
+
+    console.log('action', action);
+
     return {
-        flights: flightsReducer(state, action),
+        flights: flightsReducer(state?.flights, action),
         filter: filterReducer(state, action),
         airlines: airlinesReducer(state, action)
     };

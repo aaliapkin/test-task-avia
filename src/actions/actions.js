@@ -11,6 +11,12 @@ export const flightsLoaded = (data) => {
     };
 }
 
+export const flightsFull = () => {
+    return {
+        type: 'FETCH_FLIGHTS_FULL'
+    };
+}
+
 export const flightsError = (error) => {
     return {
         type: 'FETCH_FLIGHTS_FAILURE',

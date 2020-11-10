@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Spinner from '../spinner';
 import { ErrorBoundary, ErrorIndicator } from '../error';
 
-const withData = (method) => (Wrapped) => {
+const withData = (getData) => (Wrapped) => {
     return class extends Component {
 
         componentDidMount() {
@@ -19,12 +19,12 @@ const withData = (method) => (Wrapped) => {
         update() {
             const { dataRequest, dataError, service, dataLoaded, filter, param } = this.props;
             dataRequest();
-            service[method](filter, param)
+            getData(service, filter)
                 .then((data) => {
                     dataLoaded(data);
                 })
                 .catch(() => {
-                    dataError();
+                    dataError('fail');
                 });
         }
 

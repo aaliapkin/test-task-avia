@@ -41,6 +41,10 @@ const Airline = (props) => {
 }
 
 
+const getData = (service, filter) => {
+    return service.getAirlines(filter);
+}
+
 const mapStateToProps = () => ({ airlines: { data, loading, error }, filter }) => ({ data, loading, error, filter });
 
 const mapDispatchToProps = (dispatch) => {
@@ -54,5 +58,5 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     WithFlightService(),
-    WithData('getAirlines')
+    WithData(getData)
 )(Airline);
