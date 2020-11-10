@@ -50,7 +50,7 @@ function getCarriers(flights) {
         carriers[d.flight.carrier.airlineCode] = d.flight.carrier.caption;
     }
 
-    console.log(carriers);
+    //console.log(carriers);
 }
 
 const formatDate = (date) => {
@@ -63,16 +63,13 @@ const formatDate = (date) => {
     return ret;
 }
 
-const flightHours = (date1, date2) => {
-    let timestamp1 = Date.parse(date1);
-    let timestamp2 = Date.parse(date2);
-    let diff = (timestamp2 - timestamp1) / 1000 / 60;
-    return `${Math.floor(diff / 60)} ч ${('0' + diff % 60).slice(-2)} мин`;
+const flightHours = (minutes) => {
+    return `${Math.floor(minutes / 60)} ч ${('0' + minutes % 60).slice(-2)} мин`;
 }
 
-const FlightList = ({ flights: { data } }) => {
+const FlightList = (props) => {
 
-    let { flights } = data;
+    let { data: { flights } } = props;
 
     //getCarriers(flights);
 
@@ -129,19 +126,19 @@ const FlightLeg = ({ leg }) => {
     //     return <></>;
     // }
 
-    let firstleg = leg.segments[0];
-    let lastleg = leg.segments[leg.segments.length - 1];
+    let firstseg = leg.segments[0];
+    let lastseg = leg.segments[leg.segments.length - 1];
 
-    // let departureCity = firstleg.departureCity?.caption ?? '';
-    // let departureAirport = firstleg.departureAirport.caption;
-    let departureAirportCode = firstleg.departureAirport.uid;
-    let departure = (firstleg.departureCity?.caption === undefined ? '' : firstleg.departureCity.caption + ', ') + firstleg.departureAirport.caption;
+    // let departureCity = firstseg.departureCity?.caption ?? '';
+    // let departureAirport = firstseg.departureAirport.caption;
+    let departureAirportCode = firstseg.departureAirport.uid;
+    let departure = (firstseg.departureCity?.caption === undefined ? '' : firstseg.departureCity.caption + ', ') + firstseg.departureAirport.caption;
 
 
-    // let arrivalCity = lastleg.arrivalCity?.caption ?? '';
-    // let arrivalAirport = lastleg.arrivalAirport.caption;
-    let arrivalAirportCode = lastleg.arrivalAirport.uid;
-    let arrival = (lastleg.arrivalCity?.caption === undefined ? '' : lastleg.arrivalCity.caption + ', ') + lastleg.arrivalAirport.caption;
+    // let arrivalCity = lastseg.arrivalCity?.caption ?? '';
+    // let arrivalAirport = lastseg.arrivalAirport.caption;
+    let arrivalAirportCode = lastseg.arrivalAirport.uid;
+    let arrival = (lastseg.arrivalCity?.caption === undefined ? '' : lastseg.arrivalCity.caption + ', ') + lastseg.arrivalAirport.caption;
 
     let layoverCount = leg.segments.length - 1;
     let layover = '';
@@ -166,9 +163,9 @@ const FlightLeg = ({ leg }) => {
             break;
     }
 
-    const { date: departureDate, time: departureTime } = formatDate(firstleg.departureDate);
-    const { date: arrivalDate, time: arrivalTime } = formatDate(lastleg.arrivalDate);
-    const carrier = firstleg.airline.caption;
+    const { date: departureDate, time: departureTime } = formatDate(firstseg.departureDate);
+    const { date: arrivalDate, time: arrivalTime } = formatDate(lastseg.arrivalDate);
+    const carrier = firstseg.airline.caption;
 
     return (
         <React.Fragment>
@@ -180,7 +177,7 @@ const FlightLeg = ({ leg }) => {
                 </div>
                 <div className="element-flight__time">
                     <div className="element-flight__time-val">{departureTime} <span>{departureDate}</span></div>
-                    <div className="element-flight__time-period">{flightHours(firstleg.departureDate, lastleg.arrivalDate)}</div>
+                    <div className="element-flight__time-period">{flightHours(leg.duration)}</div>
                     <div className="element-flight__time-val"><span>{arrivalDate}</span> {arrivalTime}</div>
                 </div>
                 <div className="element-flight__relay"><span>{layover}</span></div>
@@ -192,7 +189,7 @@ const FlightLeg = ({ leg }) => {
 }
 
 
-const mapStateToProps = () => ({ flights, filter }) => ({ flights, filter });
+const mapStateToProps = () => ({ flights: { data, loading, error }, filter }) => ({ data, loading, error, filter });
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -205,5 +202,5 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     WithFlightService(),
-    WithData()
+    WithData('getFlights2')
 )(FlightList);
