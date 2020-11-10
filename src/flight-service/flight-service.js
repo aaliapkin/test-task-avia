@@ -35,7 +35,7 @@ export default class FlightService {
         // let data = await res.json();
         let res = await this.getJson();
         let data = res;
-        let flights = data;
+        let flights = [...data];
         flights = flights
             .sort((a, b) => this.sortCallback(a, b, filter))
             .filter(el => this.filterCallback(el, filter))
@@ -58,7 +58,8 @@ export default class FlightService {
 
         let res = await this.getJson();
         let data = res;
-        let flights = data;
+        let flights = [...data];
+        flights = flights.filter(el => this.filterCallback(el, filter));
 
         let carriers = {};
         for (let fl of flights) {

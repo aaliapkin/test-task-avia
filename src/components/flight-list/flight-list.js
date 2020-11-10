@@ -73,7 +73,7 @@ const FlightsContainer = (props) => {
 
     let {
         dataRequest, dataError, dataLoaded, dataFull, service,
-        filter, data: flights, error, loading
+        filter, data: flights, error, loading, full
     } = props;
 
     // console.log('flight_list.props', props);
@@ -94,6 +94,7 @@ const FlightsContainer = (props) => {
         service.getFlights2(filterRef.current, countRef.current, 5)
             .then((data) => {
                 if (data.length === 0) {
+                    dataLoaded([]);
                     dataFull();
                 } else {
                     dataLoaded(data);
@@ -137,7 +138,7 @@ const FlightsContainer = (props) => {
             <React.Fragment>
                 <FlightsList flights={flights} />
                 {loading ?
-                    <div className="flights__spinner">
+                    <div className="flight__spinner">
                         <Spinner />
                     </div> : ''}
             </React.Fragment>
@@ -147,7 +148,9 @@ const FlightsContainer = (props) => {
     return (
         <ErrorBoundary>
             {content}
-            <button className="flight__more" ref={loader}>Показать еще</button>
+            <div className="flight__loading" ref={loader}>
+                {!full ? <button className="flight__more" onClick={() => getFlights()}>Показать еще</button> : ''}
+            </div>
         </ErrorBoundary>
     );
 
@@ -156,7 +159,7 @@ const FlightsContainer = (props) => {
 const FlightsList = (props) => {
 
     let { flights } = props;
-//key={hashCode(flightToken)}
+    //key={hashCode(flightToken)}
     let flightElements = flights.map(({ flightToken, flight }) => {
         return (<FlightElement key={flightToken} flight={flight} />);
     });
@@ -275,9 +278,9 @@ const getData = (service, filter) => {
 }
 
 const mapStateToProps = () => (state) => {
-    let { flights: { data, loading, error }, filter } = state;
+    let { flights: { data, loading, error, full }, filter } = state;
     // console.log('state', state);
-    return ({ data, loading, error, filter });
+    return ({ data, loading, error, filter, full });
 };
 
 const mapDispatchToProps = (dispatch) => {

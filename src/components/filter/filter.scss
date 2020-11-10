@@ -24,6 +24,10 @@
     }
     &__row {
         margin: 4px 0;
+        input {
+            margin: 2px;
+        }
+
         label.filter__label-right {
             &:before {
                 content: "- ";

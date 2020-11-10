@@ -107,7 +107,8 @@ const flightsReducer = (state, action) => {
         return {
             data: [],
             loading: true,
-            error: false
+            error: false,
+            full: false
         };
     }
 
@@ -124,32 +125,37 @@ const flightsReducer = (state, action) => {
             return {
                 data: [...state.data],
                 loading: true,
-                error: false
+                error: false,
+                full: false
             };
 
         case 'FETCH_FLIGHTS_SUCCESS':
             return {
                 data: [...state.data, ...action.payload],
                 loading: false,
-                error: null
+                error: null,
+                full: false
             };
 
         case 'FETCH_FLIGHTS_FAILURE':
             return {
                 data: [],
                 loading: false,
-                error: action.payload
+                error: action.payload,
+                full: false
             };
 
         case 'FETCH_FLIGHTS_FULL':
+            return {
+                ...state,
+                full: true
+            };
         default:
             return state;
     }
 }
 
 const reducer = (state, action) => {
-
-    console.log('action', action);
 
     return {
         flights: flightsReducer(state?.flights, action),
